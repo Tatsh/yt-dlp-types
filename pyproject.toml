@@ -3,8 +3,8 @@ authors = ["Andrew Udvare <audvare@gmail.com>"]
 classifiers = ['Typing :: Typed']
 description = "Typing stubs for yt-dlp"
 license = "MIT"
-name = "types-yt-dlp"
-packages = [{ include = "yt-dlp-stubs" }]
+name = "yt-dlp-types"
+packages = [{ include = "yt_dlp-stubs" }]
 readme = "README.md"
 version = "0.0.1"
 
