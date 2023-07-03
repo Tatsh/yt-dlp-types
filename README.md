@@ -1,6 +1,6 @@
 # yt-dlp types
 
-Types for yt-dlp
+Types for yt-dlp.
 
 ## Installation
 
@@ -8,8 +8,6 @@ Types for yt-dlp
 pip install types-yt-dlp
 ```
 
-## Command line usage
-
 ```shell
-types-yt-dlp
+poetry add types-yt-dlp
 ```
