@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Any, Sequence
 
 from . import YDLOpts
 from .extractor.common import InfoExtractor
@@ -20,4 +20,7 @@ class YoutubeDL:
         ...
 
     def add_info_extractor(self, ie: InfoExtractor) -> None:
+        ...
+
+    def extract_info(self, url: str) -> Any:
         ...
