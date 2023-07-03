@@ -19,5 +19,5 @@
     "pylint": "pylint yt-dlp-stubs/*/*.pyi yt-dlp-stubs/*.pyi",
     "qa": "yarn pylint && yarn check-spelling && yarn check-formatting"
   },
-  "version": "0.0.3"
+  "version": "0.0.4"
 }
