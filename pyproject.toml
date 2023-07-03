@@ -4,6 +4,7 @@ classifiers = ['Typing :: Typed']
 description = "Typing stubs for yt-dlp"
 license = "MIT"
 name = "types-yt-dlp"
+packages = [{ include = "yt-dlp-stubs" }]
 readme = "README.md"
 version = "0.0.1"
 
