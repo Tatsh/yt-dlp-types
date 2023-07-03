@@ -392,9 +392,7 @@ class YDLOpts(TypedDict):
     #: * key:  The name of the postprocessor. See ``yt_dlp/postprocessor/__init__.py`` for a list.
     #: * when: When to run the postprocessor. Allowed values are the entries of
     #: ``utils.POSTPROCESS_WHEN``. Assumed to be ``'post_process'`` if not given.
-    postprocessors: NotRequired[dict[str, Literal['pre_process', 'after_filter', 'video',
-                                                  'before_dl', 'post_process', 'after_move',
-                                                  'after_video', 'playlist']] | None]
+    postprocessors: NotRequired[Sequence[Mapping[str, Any]]]
     #: Automatically correct known faults of the file.
     #: One of:
     #: - ``"never"``: do nothing
