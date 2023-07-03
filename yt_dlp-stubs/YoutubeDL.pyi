@@ -13,7 +13,7 @@ class YoutubeDL:
     def __enter__(self) -> YoutubeDL:
         ...
 
-    def __exit__(self) -> None:
+    def __exit__(self, *args: Any) -> None:
         ...
 
     def download(self, urls: Sequence[str]) -> None:
