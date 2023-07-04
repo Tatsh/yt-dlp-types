@@ -18,7 +18,7 @@ author: Final[str] = 'Andrew Udvare <audvare@gmail.com>'
 copyright: Final[str] = '2023'
 project: Final[str] = 'types-yt-dlp'
 """The short X.Y version."""
-version: Final[str] = '0.0.4'
+version: Final[str] = '0.0.5'
 """The full version, including alpha/beta/rc tags."""
 release: Final[str] = f'v{version}'
 """
