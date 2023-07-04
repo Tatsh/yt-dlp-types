@@ -26,6 +26,14 @@ class HEADRequest(urllib.request.Request):
         ...
 
 
+class NO_DEFAULT:
+    ...
+
+
+def sanitize_filename(s: str, restricted: bool = ..., is_id: bool | NO_DEFAULT = ...) -> str:
+    ...
+
+
 class YoutubeDLError(Exception):
     """Base exception for YoutubeDL errors."""
     def __init__(self, msg: str | None = ...) -> None:
