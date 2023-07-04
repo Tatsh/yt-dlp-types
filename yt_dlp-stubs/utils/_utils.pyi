@@ -3,7 +3,7 @@ from typing import Any, Callable, Literal, Type, TypeVar
 import urllib.request
 
 __all__ = ('ExtractorError', 'HEADRequest', 'YoutubeDLError', 'int_or_none', 'parse_iso8601',
-           'try_get')
+           'sanitize_filename', 'try_get')
 
 T = TypeVar('T')
 U = TypeVar('U')
