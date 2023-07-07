@@ -12,11 +12,11 @@
   "name": "types-yt-dlp",
   "repository": "git@github.com:Tatsh/types-yt-dlp.git",
   "scripts": {
-    "check-formatting": "prettier -c './**/*.cfg' './**/*.ini' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc ./.style.yapf && poetry run isort . --check && poetry run yapf -rd yt-dlp-stubs/*/*.pyi yt-dlp-stubs/*.pyi",
+    "check-formatting": "prettier -c './**/*.cfg' './**/*.ini' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc ./.style.yapf && poetry run isort . --check && poetry run yapf -rd yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
     "check-spelling": "cspell --no-progress './**/*'  './**/.*'",
-    "format": "prettier -w './**/*.cfg' './**/*.ini' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc ./.style.yapf && poetry run isort . && poetry run yapf -ri yt-dlp-stubs/*/*.pyi yt-dlp-stubs/*.pyi",
+    "format": "prettier -w './**/*.cfg' './**/*.ini' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc ./.style.yapf && poetry run isort . && poetry run yapf -ri yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
     "mypy": "poetry run mypy .",
-    "pylint": "poetry run pylint yt-dlp-stubs/*/*.pyi yt-dlp-stubs/*.pyi",
+    "pylint": "poetry run pylint yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
     "qa": "yarn pylint && yarn check-spelling && yarn check-formatting"
   },
   "version": "0.0.6"
