@@ -34,3 +34,12 @@ sphinx = "^7.0.1"
 [build-system]
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core"]
+
+[tool.isort]
+case_sensitive = true
+combine_as_imports = true
+from_first = true
+ignore_whitespace = true
+line_length = 100
+order_by_type = true
+use_parentheses = true

@@ -12,7 +12,7 @@
   "name": "types-yt-dlp",
   "repository": "git@github.com:Tatsh/types-yt-dlp.git",
   "scripts": {
-    "check-formatting": "prettier -c './**/*.cfg' './**/*.ini' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc ./.style.yapf && poetry run isort . --check --ws && poetry run yapf -rd yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
+    "check-formatting": "prettier -c './**/*.cfg' './**/*.ini' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc ./.style.yapf && poetry run isort . --check && poetry run yapf -rd yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
     "check-spelling": "cspell --no-progress './**/*'  './**/.*'",
     "format": "prettier -w './**/*.cfg' './**/*.ini' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc ./.style.yapf && poetry run isort . && poetry run yapf -ri yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
     "mypy": "poetry run mypy .",
