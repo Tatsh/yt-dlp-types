@@ -17,6 +17,7 @@ builtins
 cachedir
 classmethod
 cmdclass
+codeql
 colenabled
 colorder
 colwidth
@@ -35,11 +36,13 @@ delslice
 dets
 distutils
 docstrings
+docutils
 downloaders
 ecda
 endregion
 epub
 errnote
+esbonio
 excinfo
 execfile
 filesize

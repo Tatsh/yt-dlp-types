@@ -27,6 +27,8 @@ yt-dlp = "^2023.6.22"
 optional = true
 
 [tool.poetry.group.docs.dependencies]
+docutils = "^0.20.1"
+esbonio = "^0.16.1"
 sphinx = "^7.0.1"
 
 [build-system]
