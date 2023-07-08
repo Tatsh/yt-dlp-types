@@ -1,6 +1,6 @@
 # Based on https://github.com/sbdchd/django-types/blob/main/tests/pyright/base.py
 from os.path import abspath, dirname
-from typing import Literal, Sequence, TypedDict
+from typing import Literal, Sequence, TypedDict, cast
 import json
 import subprocess as sp
 import tempfile
@@ -35,7 +35,8 @@ def run_pyright(code: str) -> Result:
     with tempfile.NamedTemporaryFile('w', suffix='.py') as f:
         f.write(code)
         f.flush()
-        return Result(
+        return cast(
+            Result,
             json.loads(
                 sp.run(('yarn', '-s', 'pyright', '--outputjson', f.name),
                        cwd=CWD,
