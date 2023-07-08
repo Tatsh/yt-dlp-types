@@ -112,6 +112,7 @@ objectdb
 offtopic
 oneshot
 optparse
+outputjson
 outro
 outtmpl
 overgeneral
@@ -133,6 +134,7 @@ prss
 pstate
 ptrackers
 pylint
+pyright
 pytest
 ratelimit
 ratelimit
