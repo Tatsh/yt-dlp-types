@@ -1,7 +1,7 @@
 [tool.poetry]
 authors = ["Andrew Udvare <audvare@gmail.com>"]
 classifiers = ['Typing :: Typed']
-description = "Typing stubs for yt-dlp"
+description = "Typing stubs for yt-dlp."
 license = "MIT"
 name = "yt-dlp-types"
 packages = [{ include = "yt_dlp-stubs" }]

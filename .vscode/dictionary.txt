@@ -63,6 +63,7 @@ fridibi
 fstr
 fullrows
 genindex
+getabsfile
 getcomments
 getslice
 hlsnative
@@ -124,6 +125,7 @@ playlistend
 playlistrandom
 playlistreverse
 playliststart
+pluggy
 popen
 postprocess
 postprocess

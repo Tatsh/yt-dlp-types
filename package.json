@@ -13,11 +13,12 @@
   "name": "types-yt-dlp",
   "repository": "git@github.com:Tatsh/types-yt-dlp.git",
   "scripts": {
-    "check-formatting": "prettier -c './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run isort . --check && poetry run yapf -rd yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
+    "check-formatting": "prettier -c '.*/**/*.json' '.*/**/*.y*ml' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run isort . --check && poetry run yapf -rd yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
     "check-spelling": "cspell --no-progress './**/*'  './**/.*'",
-    "format": "prettier -w './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run isort . && poetry run yapf -ri yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
-    "mypy": "poetry run mypy .",
-    "pylint": "poetry run pylint tests",
+    "format": "prettier -w '.*/**/*.json' '.*/**/*.y*ml' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run isort . && poetry run yapf -ri yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
+    "fix-pluggy": "touch \"$(poetry run python -c 'import inspect, os, pluggy; print(os.path.dirname(inspect.getabsfile(pluggy)))')/py.typed\"",
+    "mypy": "yarn fix-pluggy && poetry run mypy .",
+    "pylint": "poetry run pylint docs tests",
     "qa": "yarn pylint && yarn check-spelling && yarn check-formatting",
     "test": "poetry run pytest"
   },

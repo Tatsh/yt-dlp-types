@@ -1,11 +1,11 @@
 Welcome to Human-Readable Project Name's documentation!
 =======================================================
-.. .. automodule:: yt_dlp_stubs.name_of_module
+.. .. automodule:: typings.yt_dlp
 ..     :members:
 ..
 .. Submodule
 .. ===
-.. .. automodule:: yt_dlp_stubs.submodule
+.. .. automodule:: typings.yt_dlp.YoutubeDL
 ..     :members:
 
 .. toctree::

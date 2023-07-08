@@ -58,13 +58,7 @@
     "yaml",
     "yml"
   ],
-  "ignorePaths": [
-    ".coverage",
-    ".directory",
-    "build/**",
-    "dist/**",
-    "htmlcov/**"
-  ],
+  "ignorePaths": [".coverage", ".directory", "build/**", "dist/**", "htmlcov/**"],
   "languageSettings": [
     {
       "dictionaries": ["main"],
