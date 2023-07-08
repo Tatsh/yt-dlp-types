@@ -9,7 +9,7 @@ T = TypeVar('T')
 U = TypeVar('U')
 
 
-def try_get(x: T, getter: Callable[[T], U], t: Type[U]) -> U:
+def try_get(x: T, getter: Callable[[T], U], type_: Type[U]) -> U:
     ...
 
 

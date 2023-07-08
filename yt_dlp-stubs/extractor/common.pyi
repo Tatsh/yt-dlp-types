@@ -1,3 +1,4 @@
+# pylint: disable=too-few-public-methods,unused-argument
 from typing import Any, Literal, Mapping
 import urllib.request
 

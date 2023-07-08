@@ -147,9 +147,9 @@ class YDLOpts(TypedDict):
     allow_multiple_video_streams: NotRequired[bool | None]
     #: Allow multiple audio streams to be merged into a single file.
     allow_multiple_audio_streams: NotRequired[bool | None]
-    #: Whether to test if the formats are downloadable. Can be ``True`` (check all), ``False`` (check
-    #: none), ``'selected'`` (check selected formats), or ``None`` (check only if requested by
-    #: extractor).
+    #: Whether to test if the formats are downloadable. Can be ``True`` (check all), ``False``
+    # (check  none), ``'selected'`` (check selected formats), or ``None`` (check only if requested
+    # by extractor).
     check_formats: NotRequired[bool | Literal['selected'] | None]
     #: Print an overview of available video formats and exit.
     listformats: NotRequired[bool | None]
@@ -358,12 +358,12 @@ class YDLOpts(TypedDict):
     #: details. Example: ``{'youtube': {'skip': ['dash', 'hls']}}``.
     extractor_args: NotRequired[Mapping[str, Mapping[str, Any]] | None]
     #: Use ``extractor_args``. If ``True`` (default), DASH manifests and related data will be
-    #: downloaded and processed by extractor. You can reduce network I/O by disabling it if you don't
-    #: care about DASH. Only for YouTube.
+    #: downloaded and processed by extractor. You can reduce network I/O by disabling it if you
+    # don't care about DASH. Only for YouTube.
     youtube_include_dash_manifest: NotRequired[bool | None]
     #: Use ``extractor_args``. If ``True`` (default), DASH manifests and related data will be
-    #: downloaded and processed by extractor. You can reduce network I/O by disabling it if you don't
-    #: care about HLS. Only for YouTube.
+    #: downloaded and processed by extractor. You can reduce network I/O by disabling it if you
+    # don't care about HLS. Only for YouTube.
     youtube_include_hls_manifest: NotRequired[bool | None]
     #: Use this encoding instead of the system-specified.
     encoding: NotRequired[str | None]
@@ -371,7 +371,8 @@ class YDLOpts(TypedDict):
     #: * ``False``: Always process. Default for API.
     #: * ``True``: Never process.
     #: * ``'in_playlist'``: Do not process inside playlist/multi-video.
-    #: * ``'discard'``: Always process, but don't return the result from inside playlist/multi-video.
+    #: * ``'discard'``: Always process, but don't return the result from inside
+    #    playlist/multi-video.
     #: * ``'discard_in_playlist'``: Same as ``'discard'``, but only for playlists (not multi_video).
     #:   Default for CLI.
     extract_flat: NotRequired[bool | Literal['in_playlist', 'discard', 'discard_in_playlist']
@@ -440,7 +441,8 @@ class YDLOpts(TypedDict):
     #: ``(info_dict) -> str | None`` is also allowed.
     #: If it returns a message, the video is ignored.
     #: If it returns ``None``, the video is downloaded.
-    #: If it returns utils.NO_DEFAULT, the user is interactively asked whether to download the video.
+    #: If it returns utils.NO_DEFAULT, the user is interactively asked whether to download the
+    #: video.
     #: Raise ``utils.DownloadCancelled(msg)`` to abort remaining downloads when a video is rejected.
     #: ``match_filter_func`` in utils.py is one example for this.
     match_filter: NotRequired[Callable[[InfoDict, bool], str | None]
