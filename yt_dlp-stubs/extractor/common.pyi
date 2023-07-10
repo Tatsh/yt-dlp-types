@@ -1,11 +1,12 @@
-# pylint: disable=too-few-public-methods,unused-argument
-from typing import Any, Literal, Mapping
+from typing import Any, Literal, Mapping, TypeVar
 import urllib.request
 
 from ..YoutubeDL import YoutubeDL
 from ..utils import ExtractorError
 
 __all__ = ('ExtractorError', 'InfoExtractor')
+
+T = TypeVar('T')
 
 
 class InfoExtractor:
@@ -54,4 +55,12 @@ class InfoExtractor:
 
     @classmethod
     def _match_id(cls, url: str) -> str:
+        ...
+
+    def _configuration_arg(self,
+                           key: str,
+                           default: T = ...,
+                           *,
+                           ie_key: str | None = ...,
+                           casesense: bool = ...) -> Any:
         ...

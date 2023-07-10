@@ -15,6 +15,7 @@ bootloader
 buffersize
 builtins
 cachedir
+casesense
 classmethod
 cmdclass
 codeql
