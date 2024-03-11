@@ -1316,13 +1316,13 @@ tomli = ">=2.0.1"
 
 [[package]]
 name = "yt-dlp"
-version = "2023.12.30"
+version = "2024.3.10"
 description = "A youtube-dl fork with additional features and patches"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "yt-dlp-2023.12.30.tar.gz", hash = "sha256:a11862e57721b0a0f0883dfeb5a4d79ba213a2d4c45e1880e9fd70f8e6570c38"},
-    {file = "yt_dlp-2023.12.30-py2.py3-none-any.whl", hash = "sha256:c00d9a71d64472ad441bcaa1ec0c3797d6e60c9f934f270096a96fe51657e7b3"},
+    {file = "yt_dlp-2024.3.10-py3-none-any.whl", hash = "sha256:bbe66b9a3aa23b6378ccca3ea20f5aadf385fa21a993513a105d73c827a86ed4"},
+    {file = "yt_dlp-2024.3.10.tar.gz", hash = "sha256:6e74cb14a69dbeb872c8ef4e0b8bbed2ee846ec633513cf3124a74c1faedc07b"},
 ]
 
 [package.dependencies]
@@ -1334,6 +1334,13 @@ pycryptodomex = "*"
 requests = ">=2.31.0,<3"
 urllib3 = ">=1.26.17,<3"
 websockets = ">=12.0"
+
+[package.extras]
+build = ["build", "hatchling", "pip", "wheel"]
+dev = ["flake8", "isort", "pytest"]
+py2exe = ["py2exe (>=0.12)"]
+pyinstaller = ["pyinstaller (>=6.3)"]
+secretstorage = ["cffi", "secretstorage"]
 
 [[package]]
 name = "zipp"
@@ -1353,4 +1360,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4"
-content-hash = "657e6f0b9693f9a8d4895811243d1d28c862520f7a3a4f234b683dd1587123d9"
+content-hash = "30486fd6c51cce4e618be6fa20ea0859ad9357dc4cb2c559f742c2f7fb616166"
