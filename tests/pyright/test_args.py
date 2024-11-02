@@ -2,7 +2,7 @@ from .base import run_pyright
 
 
 def test_download_json() -> None:
-    results = run_pyright('''
+    results = run_pyright("""
 from typing import Any
 from yt_dlp.extractor.common import InfoExtractor
 
@@ -10,7 +10,7 @@ from yt_dlp.extractor.common import InfoExtractor
 class MyIE(InfoExtractor):
     def _real_extract(self, url: str) -> Any:
         self._download_json(1, 2)
-''')['generalDiagnostics']
+""")['generalDiagnostics']
     assert results[0]['message'].startswith(
         'Argument of type "Literal[1]" cannot be assigned to parameter "url" of type '
         '"str | Request" in function "_download_json"')
@@ -20,7 +20,7 @@ class MyIE(InfoExtractor):
 
 
 def test_availability() -> None:
-    results = run_pyright('''
+    results = run_pyright("""
 from typing import Any
 from yt_dlp.extractor.common import InfoExtractor
 
@@ -28,7 +28,7 @@ from yt_dlp.extractor.common import InfoExtractor
 class MyIE(InfoExtractor):
     def _real_extract(self, url: str) -> Any:
         self._availability(is_private=1)
-''')['generalDiagnostics']
+""")['generalDiagnostics']
     assert results[0]['message'].startswith(
         'Argument of type "Literal[1]" cannot be assigned to parameter "is_private" of type '
         '"bool | None"')

@@ -3,23 +3,47 @@
     "Andrew Udvare <audvare@gmail.com>"
   ],
   "devDependencies": {
-    "cspell": "^6.31.1",
-    "prettier": "^2.8.8",
-    "prettier-plugin-ini": "^1.1.0",
-    "prettier-plugin-toml": "^0.3.1",
-    "pyright": "^1.1.316"
+    "cspell": "^8.15.3",
+    "markdownlint-cli2": "^0.14.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-ini": "^1.3.0",
+    "prettier-plugin-toml": "^2.0.1",
+    "prettier-plugin-sort-json": "^4.0.0",
+    "yarn-audit-fix": "^10.0.9"
   },
   "license": "MIT",
-  "name": "types-yt-dlp",
+  "name": "yt-dlp-types",
+  "prettier": {
+    "endOfLine": "lf",
+    "iniSpaceAroundEquals": true,
+    "jsonRecursiveSort": true,
+    "overrides": [
+      {
+        "files": [
+          "package.json"
+        ],
+        "options": {
+          "parser": "json"
+        }
+      }
+    ],
+    "plugins": [
+      "prettier-plugin-ini",
+      "prettier-plugin-sort-json",
+      "prettier-plugin-toml"
+    ],
+    "printWidth": 100,
+    "singleQuote": true
+  },
   "repository": "git@github.com:Tatsh/types-yt-dlp.git",
   "scripts": {
-    "check-formatting": "prettier -c '.*/**/*.json' '.*/**/*.y*ml' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run isort . --check && poetry run yapf -rd yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
+    "check-formatting": "prettier -c '.*/**/*.json' '.*/**/*.y*ml' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run yapf -rd yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
     "check-spelling": "cspell --no-progress './**/*'  './**/.*'",
-    "format": "prettier -w '.*/**/*.json' '.*/**/*.y*ml' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run isort . && poetry run yapf -ri yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
+    "format": "prettier -w '.*/**/*.json' '.*/**/*.y*ml' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run yapf -ri yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
     "fix-pluggy": "touch \"$(poetry run python -c 'import inspect, os, pluggy; print(os.path.dirname(inspect.getabsfile(pluggy)))')/py.typed\"",
     "mypy": "yarn fix-pluggy && poetry run mypy .",
-    "pylint": "poetry run pylint docs tests",
-    "qa": "yarn pylint && yarn check-spelling && yarn check-formatting",
+    "ruff": "poetry run ruff check --fix .",
+    "qa": "yarn ruff && yarn check-spelling && yarn check-formatting",
     "test": "poetry run pytest"
   },
   "version": "0.0.7"

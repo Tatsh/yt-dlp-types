@@ -1,13 +1,14 @@
 # Based on https://github.com/sbdchd/django-types/blob/main/tests/pyright/base.py
-from os.path import abspath, dirname
-from typing import Literal, Sequence, TypedDict, cast
 import json
 import subprocess as sp
 import tempfile
+from collections.abc import Sequence
+from pathlib import Path
+from typing import Literal, TypedDict, cast
 
 ResultType = Literal['error', 'information']
 
-CWD = dirname(dirname(dirname(abspath(__file__))))
+CWD = str(Path(__file__).absolute().parent.parent.parent)
 
 
 class RangeField(TypedDict):
@@ -28,11 +29,11 @@ class GeneralDiagnostics(TypedDict):
 
 
 class Result(TypedDict):
-    generalDiagnostics: Sequence[GeneralDiagnostics]  # pylint: disable=invalid-name
+    generalDiagnostics: Sequence[GeneralDiagnostics]
 
 
 def run_pyright(code: str) -> Result:
-    with tempfile.NamedTemporaryFile('w', suffix='.py') as f:
+    with tempfile.NamedTemporaryFile('w', suffix='.py', encoding='utf-8') as f:
         f.write(code)
         f.flush()
         return cast(

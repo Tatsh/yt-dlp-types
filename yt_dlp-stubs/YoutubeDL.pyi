@@ -1,4 +1,5 @@
-from typing import Any, Sequence
+from collections.abc import Sequence
+from typing import Any, Self
 
 from . import YDLOpts
 from .extractor.common import InfoExtractor
@@ -10,10 +11,10 @@ class YoutubeDL:
     def __init__(self, options: YDLOpts) -> None:
         ...
 
-    def __enter__(self) -> YoutubeDL:
+    def __enter__(self) -> Self:
         ...
 
-    def __exit__(self, *args: Any) -> None:
+    def __exit__(self, *args: object) -> None:
         ...
 
     def download(self, urls: Sequence[str]) -> None:

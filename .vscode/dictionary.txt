@@ -1,3 +1,4 @@
+
 abstractproperty
 allsubtitles
 apng
@@ -63,6 +64,7 @@ forceurl
 fridibi
 fstr
 fullrows
+furb
 genindex
 getabsfile
 getcomments
@@ -136,6 +138,7 @@ printtraffic
 prss
 pstate
 ptrackers
+pydocstyle
 pylint
 pyright
 pytest
@@ -217,4 +220,5 @@ xirvik
 xrange
 xreadlines
 yapf
+yapfignore
 ytdl

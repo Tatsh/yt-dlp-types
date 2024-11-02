@@ -1,15 +1,16 @@
-from inspect import Traceback
-from typing import Any, Callable, Literal, Type, TypeVar
 import urllib.request
+from collections.abc import Callable
+from inspect import Traceback
+from typing import Any, Literal, TypeVar
 
 __all__ = ('ExtractorError', 'HEADRequest', 'YoutubeDLError', 'int_or_none', 'parse_iso8601',
-           'sanitize_filename', 'try_get')
+           'sanitize_filename', 'try_get', 'unified_timestamp')
 
-T = TypeVar('T')
-U = TypeVar('U')
+_T = TypeVar('_T')
+_U = TypeVar('_U')
 
 
-def try_get(x: T, getter: Callable[[T], U], type_: Type[U]) -> U:
+def try_get(x: _T, getter: Callable[[_T], _U], type_: type[_U]) -> _U:
     ...
 
 
@@ -26,7 +27,7 @@ class HEADRequest(urllib.request.Request):
         ...
 
 
-class NO_DEFAULT:
+class NO_DEFAULT:  # noqa: N801
     ...
 
 
@@ -35,13 +36,11 @@ def sanitize_filename(s: str, restricted: bool = ..., is_id: bool | NO_DEFAULT =
 
 
 class YoutubeDLError(Exception):
-    """Base exception for YoutubeDL errors."""
     def __init__(self, msg: str | None = ...) -> None:
         ...
 
 
 class ExtractorError(YoutubeDLError):
-    """Error during info extraction."""
     def __init__(self,
                  msg: str,
                  tb: Traceback | None = ...,
@@ -57,3 +56,7 @@ class ExtractorError(YoutubeDLError):
     @property
     def __msg(self) -> str:
         ...
+
+
+def unified_timestamp(date_str: str, day_first: bool = ...) -> int | float | None:
+    ...

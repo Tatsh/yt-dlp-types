@@ -1,6 +1,6 @@
 """Configuration for Pytest."""
-from typing import NoReturn
 import os
+from typing import NoReturn
 
 import pytest
 

@@ -1,20 +1,19 @@
-from typing import Any, Callable, Iterator, Literal, Mapping, NamedTuple, Sequence, TypedDict
 import optparse
+from collections.abc import Callable, Iterator, Mapping, Sequence
+from typing import Any, Literal, NamedTuple, NotRequired, TypedDict
 
-from typing_extensions import NotRequired
-
-from .YoutubeDL import YoutubeDL
 from ._misc import LoggerProtocol
+from .YoutubeDL import YoutubeDL
 
 __all__ = ('YoutubeDL', 'parse_options')
 
 
 class InfoDict(TypedDict):
-    pass
+    ...
 
 
 class FormatContext(TypedDict):
-    pass
+    ...
 
 
 class RetrySleepFunctions(TypedDict):
