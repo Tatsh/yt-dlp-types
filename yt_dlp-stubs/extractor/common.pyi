@@ -54,7 +54,7 @@ class InfoExtractor:
         ...
 
     def _parse_mpd_formats(self,
-                           mpd_doc: str,
+                           mpd_doc: ET.Element,
                            mpd_id: str | None = ...,
                            mpd_base_url: str = ...,
                            mpd_url: str | None = ...) -> Any:
