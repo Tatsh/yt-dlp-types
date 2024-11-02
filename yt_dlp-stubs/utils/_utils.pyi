@@ -58,5 +58,5 @@ class ExtractorError(YoutubeDLError):
         ...
 
 
-def unified_timestamp(date_str: str, day_first: bool = ...) -> int | float | None:
+def unified_timestamp(date_str: str | None, day_first: bool = ...) -> int | float | None:
     ...
