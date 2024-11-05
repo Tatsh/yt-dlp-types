@@ -21,7 +21,7 @@ class InfoDict(TypedDict, total=False):
     like_count: int | None
     tags: list[str] | None
     thumbnail: str | None
-    timestamp: int | None
+    timestamp: int | float | None
     title: str | None
     uploader: str | None
     url: str | None
@@ -117,7 +117,7 @@ class InfoExtractor:
         ...
 
     @staticmethod
-    def playlist_result(entries: Iterable[dict[str, Any]],
+    def playlist_result(entries: Iterable[InfoDict],
                         playlist_id: str | None = ...,
                         playlist_title: str | None = ...,
                         playlist_description: str | None = ...,
