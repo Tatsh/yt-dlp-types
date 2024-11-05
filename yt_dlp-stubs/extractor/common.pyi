@@ -1,12 +1,30 @@
 import urllib.request
 import xml.etree.ElementTree as ET
 from collections.abc import Callable, Iterable, Mapping
-from typing import Any, Literal
+from typing import Any, Literal, Required, TypedDict
 
 from ..utils import ExtractorError
 from ..YoutubeDL import YoutubeDL
 
 __all__ = ('ExtractorError', 'InfoExtractor')
+
+
+class InfoDict(TypedDict, total=False):
+    age_limit: int
+    availability: Literal['private', 'premium_only', 'subscriber_only', 'needs_auth', 'unlisted',
+                          'public'] | None
+    creator: str | None
+    comment_count: int | None
+    duration: int | None
+    formats: list[Any] | None
+    id: Required[str]
+    like_count: int | None
+    tags: list[str] | None
+    thumbnail: str | None
+    timestamp: int | None
+    title: str | None
+    uploader: str | None
+    url: str | None
 
 
 class InfoExtractor:
@@ -57,10 +75,10 @@ class InfoExtractor:
                            mpd_doc: ET.Element,
                            mpd_id: str | None = ...,
                            mpd_base_url: str = ...,
-                           mpd_url: str | None = ...) -> Any:
+                           mpd_url: str | None = ...) -> list[Any]:
         ...
 
-    def _real_extract(self, url: str) -> Any:
+    def _real_extract(self, url: str) -> InfoDict:
         ...
 
     @staticmethod
@@ -70,8 +88,8 @@ class InfoExtractor:
         needs_subscription: bool | None = ...,
         needs_auth: bool | None = ...,
         is_unlisted: bool | None = ...
-    ) -> Literal['private', 'premium_only', 'subscriber_only', 'needs_auth', 'unlisted',
-                 'public'] | None:
+    ) -> Literal['needs_auth', 'premium_only', 'private', 'public', 'subscriber_only',
+                 'unlisted'] | None:
         ...
 
     def _request_webpage(self,
@@ -105,5 +123,8 @@ class InfoExtractor:
                         playlist_description: str | None = ...,
                         *,
                         multi_video: bool = ...,
-                        **kwargs: Any) -> dict[str, Any]:
+                        **kwargs: Any) -> InfoDict:
+        ...
+
+    def write_debug(self, msg: str, *args: Any, **kwargs: Any) -> None:
         ...

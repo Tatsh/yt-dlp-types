@@ -1,7 +1,7 @@
 import urllib.request
 from collections.abc import Callable
 from inspect import Traceback
-from typing import Any, Literal, TypeVar
+from typing import Any, Literal, TypeVar, override
 
 __all__ = ('ExtractorError', 'HEADRequest', 'YoutubeDLError', 'int_or_none', 'parse_iso8601',
            'sanitize_filename', 'try_get', 'unified_timestamp')
@@ -10,7 +10,7 @@ _T = TypeVar('_T')
 _U = TypeVar('_U')
 
 
-def try_get(x: _T, getter: Callable[[_T], _U], type_: type[_U] = ...) -> _U | None:
+def try_get(src: _T, getter: Callable[[_T], _U], type_: type[_U] = ...) -> _U | None:
     ...
 
 
@@ -23,6 +23,7 @@ def int_or_none(x: Any) -> int | None:
 
 
 class HEADRequest(urllib.request.Request):
+    @override
     def get_method(self) -> Literal['HEAD']:
         ...
 
