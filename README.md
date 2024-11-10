@@ -8,9 +8,9 @@ Types for yt-dlp.
 ## Installation
 
 ```shell
-pip install types-yt-dlp
+pip install yt-dlp-types
 ```
 
 ```shell
-poetry add types-yt-dlp
+poetry add yt-dlp-types
 ```
