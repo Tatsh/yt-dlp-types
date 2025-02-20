@@ -1,7 +1,12 @@
 import urllib.request
 from collections.abc import Callable
 from inspect import Traceback
-from typing import Any, Literal, TypeVar, override
+from typing import Any, Literal, Protocol, Self, TypeVar, override
+
+from ..YoutubeDL import YoutubeDL
+
+from _typeshed import ExcInfo
+
 
 __all__ = ('ExtractorError', 'HEADRequest', 'YoutubeDLError', 'int_or_none', 'parse_iso8601',
            'sanitize_filename', 'try_get', 'unified_timestamp')
@@ -37,6 +42,7 @@ def sanitize_filename(s: str, restricted: bool = ..., is_id: bool | NO_DEFAULT =
 
 
 class YoutubeDLError(Exception):
+    msg: str
     def __init__(self, msg: str | None = ...) -> None:
         ...
 
@@ -59,5 +65,28 @@ class ExtractorError(YoutubeDLError):
         ...
 
 
+class DownloadError(YoutubeDLError):
+    exc_info: ExcInfo | None
+    def __init__(self, msg: str | None = ..., exc_info: ExcInfo | None = None) -> None:
+        ...
+
 def unified_timestamp(date_str: str | None, day_first: bool = ...) -> int | float | None:
     ...
+
+class classproperty:
+    def __new__(
+        cls, func: Callable[[Any], Any] | None = ..., *args: list[Any], **kwargs: dict[str, Any]
+    ) -> Self: ...
+    def __init__(
+        self, func: Callable[[Any], Any], *, cache: dict[Any, Any] | Literal[False] = ...
+    ) -> None: ...
+    def __get__(self, _: Any, cls: type) -> Any: ...
+
+class SupportedLogger(Protocol):
+    def __init__(self, ydl: YoutubeDL = ...) -> None: ...
+    def debug(self, message: str) -> None: ...
+    def info(self, message: str) -> None: ...
+    def warning(self, message: str, *, once: bool = ...) -> None: ...
+    def error(self, message: str, *, is_error: bool = ...) -> None: ...
+    def stdout(self, message: str) -> None: ...
+    def stderr(self, message: str) -> None: ...
