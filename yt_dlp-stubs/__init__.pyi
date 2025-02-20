@@ -3,6 +3,7 @@ from collections.abc import Callable, Iterator, Mapping, Sequence
 from typing import Any, Literal, NamedTuple, NotRequired, TypedDict
 
 from ._misc import LoggerProtocol
+from .networking.impersonate import ImpersonateTarget
 from .YoutubeDL import YoutubeDL
 
 __all__ = ('YoutubeDL', 'parse_options')
@@ -503,8 +504,10 @@ class YDLOpts(TypedDict):
     #: Does nothing.
     forceformat: NotRequired[Any]
     load_pages: NotRequired[bool | None]
-    logger: LoggerProtocol
+    logger: NotRequired[LoggerProtocol]
     youtube_print_sig_code: NotRequired[bool | None]
+    progress_hooks: NotRequired[list[Callable[[Any], Any]]]
+    impersonate: NotRequired[ImpersonateTarget]
 
 
 class ParsedOptions(NamedTuple):

@@ -1,6 +1,6 @@
 from collections.abc import Sequence
 from enum import Enum
-from http.cookiejar import Cookie
+from http.cookiejar import Cookie, MozillaCookieJar
 
 from ._misc import LoggerProtocol
 
@@ -21,3 +21,5 @@ def extract_cookies_from_browser(browser: str,
                                  *,
                                  keyring: _LinuxKeyring = ...) -> Sequence[Cookie]:
     ...
+
+class YoutubeDLCookieJar(MozillaCookieJar): ...
