@@ -73,7 +73,7 @@ class DownloadError(YoutubeDLError):
 def unified_timestamp(date_str: str | None, day_first: bool = ...) -> int | float | None:
     ...
 
-class classproperty:
+class classproperty:  # noqa: N801
     def __new__(
         cls, func: Callable[[Any], Any] | None = ..., *args: list[Any], **kwargs: dict[str, Any]
     ) -> Self: ...
