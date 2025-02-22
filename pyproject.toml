@@ -6,7 +6,7 @@ license = "MIT"
 name = "yt-dlp-types"
 packages = [{ include = "yt_dlp-stubs" }]
 readme = "README.md"
-version = "0.0.13"
+version = "0.0.14"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4"
