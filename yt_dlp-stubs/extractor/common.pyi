@@ -1,7 +1,8 @@
 import urllib.request
 import xml.etree.ElementTree as ET
 from collections.abc import Callable, Iterable, Mapping
-from typing import Any, Literal, Required, TypedDict
+from typing import Any, Literal, TypedDict
+from typing_extensions import Required
 
 from ..utils import ExtractorError
 from ..YoutubeDL import YoutubeDL

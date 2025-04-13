@@ -1,50 +1,121 @@
 {
-  "contributors": [
-    "Andrew Udvare <audvare@gmail.com>"
-  ],
-  "devDependencies": {
-    "cspell": "^8.15.3",
-    "markdownlint-cli2": "^0.14.0",
-    "prettier": "^3.3.3",
-    "prettier-plugin-ini": "^1.3.0",
-    "prettier-plugin-toml": "^2.0.1",
-    "prettier-plugin-sort-json": "^4.0.0",
-    "yarn-audit-fix": "^10.0.14"
+  "contributors": ["Andrew Udvare <audvare@gmail.com>"],
+  "cspell": {
+    "dictionaryDefinitions": [
+      {
+        "name": "main",
+        "path": ".vscode/dictionary.txt"
+      }
+    ],
+    "enableGlobDot": true,
+    "enabledLanguageIds": [
+      "git-commit",
+      "ignore",
+      "jinja",
+      "json",
+      "jsonc",
+      "markdown",
+      "plaintext",
+      "python",
+      "restructuredtext",
+      "text",
+      "toml",
+      "yaml",
+      "yml"
+    ],
+    "ignorePaths": [
+      "*.1",
+      "*.har",
+      "*.log",
+      ".*_cache/**",
+      ".coverage",
+      ".directory",
+      ".doctrees",
+      ".git",
+      ".vscode/extensions.json",
+      ".yarn/**/*.cjs",
+      "__pycache__",
+      "_build/**",
+      "build/**",
+      "dist/**",
+      "docs/_build/**",
+      "htmlcov/**",
+      "man/**",
+      "node_modules/**"
+    ],
+    "language": "en-GB",
+    "languageSettings": [
+      {
+        "dictionaries": ["main"],
+        "languageId": "*"
+      }
+    ]
   },
+  "devDependencies": {
+    "@prettier/plugin-xml": "^3.4.1",
+    "cspell": "^8.18.1",
+    "markdownlint-cli2": "^0.17.2",
+    "prettier": "^3.5.3",
+    "prettier-plugin-ini": "^1.3.0",
+    "prettier-plugin-sort-json": "^4.1.1",
+    "prettier-plugin-toml": "^2.0.4",
+    "pyright": "^1.1.398",
+    "yarn-audit-fix": "^10.1.0"
+  },
+  "homepage": "https://tatsh.github.io/yt-dlp-types/",
+  "keywords": ["pep561", "stubs", "types", "yt-dlp"],
   "license": "MIT",
+  "markdownlint-cli2": {
+    "config": {
+      "MD033": {
+        "allowed_elements": ["kbd"]
+      },
+      "default": true,
+      "line-length": {
+        "code_blocks": false,
+        "line_length": 100
+      }
+    }
+  },
   "name": "yt-dlp-types",
+  "packageManager": "yarn@4.9.0",
   "prettier": {
     "endOfLine": "lf",
     "iniSpaceAroundEquals": true,
     "jsonRecursiveSort": true,
     "overrides": [
       {
-        "files": [
-          "package.json"
-        ],
+        "files": ["package.json"],
         "options": {
           "parser": "json"
         }
       }
     ],
     "plugins": [
+      "@prettier/plugin-xml",
       "prettier-plugin-ini",
       "prettier-plugin-sort-json",
       "prettier-plugin-toml"
     ],
     "printWidth": 100,
+    "reorderKeys": true,
     "singleQuote": true
   },
-  "repository": "git@github.com:Tatsh/types-yt-dlp.git",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Tatsh/yt-dlp-types.git"
+  },
   "scripts": {
-    "check-formatting": "prettier -c '.*/**/*.json' '.*/**/*.y*ml' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run yapf -rd yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
-    "check-spelling": "cspell --no-progress './**/*'  './**/.*'",
-    "format": "prettier -w '.*/**/*.json' '.*/**/*.y*ml' './**/*.md' './**/*.toml' './**/*.yml' ./.prettierrc && poetry run yapf -ri yt_dlp-stubs/*/*.pyi yt_dlp-stubs/*.pyi",
-    "fix-pluggy": "touch \"$(poetry run python -c 'import inspect, os, pluggy; print(os.path.dirname(inspect.getabsfile(pluggy)))')/py.typed\"",
-    "mypy": "yarn fix-pluggy && poetry run mypy .",
-    "ruff": "poetry run ruff check --fix .",
-    "qa": "yarn ruff && yarn check-spelling && yarn check-formatting",
-    "test": "poetry run pytest"
+    "check-formatting": "yarn prettier -c . && poetry run yapf -prd . && yarn markdownlint-cli2 '**/*.md' '#node_modules'",
+    "check-spelling": "yarn cspell --no-progress './**/*'  './**/.*'",
+    "format": "prettier -w . && poetry run yapf -ri . && yarn markdownlint-cli2 --fix '**/*.md' '#node_modules'",
+    "mypy": "poetry run mypy",
+    "qa": "yarn mypy . && yarn ruff . && yarn check-spelling && yarn check-formatting",
+    "regen": "poetry run wiswa",
+    "ruff": "poetry run ruff check",
+    "ruff:fix": "poetry run ruff check --fix",
+    "test": "poetry run pytest",
+    "test:cov": "yarn test --cov . --cov-report html --cov-report term-missing:skip-covered"
   },
   "version": "0.0.14"
 }
