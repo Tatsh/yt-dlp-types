@@ -81,10 +81,12 @@ restrictfilenames
 rtmp
 rtsp
 schemafile
+sky-niniko
 subtitlesformat
 subtitleslangs
 tatsh
 testpaths
+thcrt
 throttledratelimit
 twofactor
 typeshed
