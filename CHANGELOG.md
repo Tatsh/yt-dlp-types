@@ -8,6 +8,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [unreleased]
+
+## [0.0.16] - 2025-04-27
+
+### Added
+
+- `yt_dlp.minicurses` typing
+
+### Changed
+
+- Made `yt_dlp.cookies` more complete.
+
 ## [0.0.15] - 2025-04-12
 
 ### Added
@@ -38,3 +50,5 @@ and this project adheres to
 ### Fixed
 
 - Package name. Thanks to @Sky-NiniKo
+
+[unreleased]: https://github.com/Tatsh/yt-dlp-types/compare/v0.0.16...HEAD
