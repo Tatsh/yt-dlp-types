@@ -20,6 +20,10 @@ and this project adheres to
 
 - Made `yt_dlp.cookies` more complete.
 
+### Fixed
+
+- Return value of `yt_dlp.cookies.extract_cookies_from_browser`.
+
 ## [0.0.15] - 2025-04-12
 
 ### Added
