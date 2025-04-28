@@ -1,5 +1,7 @@
-from typing import Any, Self, TextIO
 from collections.abc import Callable
+from typing import Any, TextIO
+
+from typing_extensions import Self
 
 CONTROL_SEQUENCES: dict[str, str] = ...
 
@@ -47,5 +49,5 @@ class MultilinePrinter(MultilinePrinterBase):
                  preserve_output: bool = ...) -> None:
         ...
 
-    def lock(func: Callable[..., Any]) -> Callable[..., Any]:
+    def lock(self, func: Callable[..., Any]) -> Callable[..., Any]:
         ...
