@@ -1,10 +1,10 @@
 allsubtitles
 autodoc
 autonumber
+breakline
 buffersize
 cachedir
 casesense
-cndn
 codeowners
 commitizen
 conftest
@@ -34,7 +34,6 @@ forcethumbnail
 forcetitle
 forceurl
 furb
-hlsnative
 hoverxref
 htmlcov
 ignoreerrors
@@ -55,6 +54,7 @@ matchtitle
 minicurses
 mpegts
 mypy
+nini
 nocheckcertificate
 nopart
 noplaylist
@@ -84,7 +84,6 @@ restrictfilenames
 rtmp
 rtsp
 schemafile
-sky-niniko
 subtitlesformat
 subtitleslangs
 tatsh

@@ -26,9 +26,6 @@ version = "0.0.15"
 email = "audvare@gmail.com"
 name = "Andrew Udvare"
 
-[project.optional-dependencies]
-erdantic = ["erdantic<2.0"]
-
 [project.scripts]
 
 [project.urls]
@@ -53,6 +50,7 @@ version_provider = "pep621"
 [tool.coverage]
 
 [tool.coverage.report]
+exclude_also = ["if TYPE_CHECKING:"]
 omit = ["conftest.py", "tests.py", "tests/test_*.py"]
 show_missing = true
 
@@ -96,7 +94,7 @@ optional = true
 commitizen = "^4.5.0"
 djlint = "^1.36.4"
 mypy = ">=1.12,<1.16"
-ruff = "^0.11.2"
+ruff = "^0.11.7"
 yapf = "^0.43.0"
 yt-dlp = ">=2023.6.22,<2026.0.0"
 
@@ -118,6 +116,10 @@ sphinx-immaterial = "^0.13.4"
 [tool.poetry.group.docs.dependencies.enum-tools]
 extras = ["sphinx"]
 version = "^0.12.0"
+
+[tool.poetry.group.docs.dependencies.erdantic]
+optional = true
+version = "<2.0"
 
 [tool.poetry.group.tests]
 
@@ -227,6 +229,7 @@ extend-select = [
   "YTT",
 ]
 ignore = [
+  "A002",
   "A005",
   "ANN401",
   "ARG001",
@@ -281,6 +284,8 @@ multiline-quotes = "double"
 case-sensitive = true
 combine-as-imports = true
 from-first = true
+required-imports = ["from __future__ import annotations"]
+section-order = ["future", "standard-library", "third-party", "local-folder"]
 
 [tool.ruff.lint.pep8-naming]
 extend-ignore-names = ["test_*"]
