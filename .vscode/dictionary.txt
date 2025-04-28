@@ -4,6 +4,7 @@ autonumber
 buffersize
 cachedir
 casesense
+cndn
 codeowners
 commitizen
 conftest
@@ -14,6 +15,7 @@ cookiesfrombrowser
 coveragerc
 datatables
 daterange
+decryptor
 djlint
 doctrees
 eeyore
@@ -50,6 +52,7 @@ listformats
 listsubtitles
 logtostderr
 matchtitle
+minicurses
 mpegts
 mypy
 nocheckcertificate
