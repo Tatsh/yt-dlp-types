@@ -2,6 +2,7 @@ allsubtitles
 autodoc
 autonumber
 breakline
+bsky
 buffersize
 cachedir
 casesense
