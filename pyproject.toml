@@ -34,29 +34,17 @@ documentation = "https://yt-dlp-types.readthedocs.org"
 homepage = "https://tatsh.github.io/yt-dlp-types/"
 repository = "https://github.com/Tatsh/yt-dlp-types"
 
-[tool]
-
 [tool.commitizen]
 tag_format = "v$version"
 version_files = [
   ".wiswa.jsonnet",
   "CITATION.cff",
   "README.md",
+  "docs/index.rst",
   "package.json",
   "yt_dlp-stubs/__init__.py",
 ]
 version_provider = "pep621"
-
-[tool.coverage]
-
-[tool.coverage.report]
-exclude_also = ["if TYPE_CHECKING:"]
-omit = ["conftest.py", "tests.py", "tests/test_*.py"]
-show_missing = true
-
-[tool.coverage.run]
-branch = true
-omit = ["conftest.py", "tests.py", "tests/test_*.py"]
 
 [tool.djlint]
 max_line_length = 100
@@ -79,13 +67,9 @@ strict = true
 strict_optional = true
 warn_unreachable = true
 
-[tool.poetry]
-
 [tool.poetry.dependencies]
 python = ">=3.10,<3.14"
-typing-extensions = "^4.13.1"
-
-[tool.poetry.group]
+typing-extensions = "^4.13.2"
 
 [tool.poetry.group.dev]
 optional = true
@@ -97,41 +81,6 @@ mypy = ">=1.12,<1.16"
 ruff = "^0.11.9"
 yapf = "^0.43.0"
 yt-dlp = ">=2023.6.22,<2026.0.0"
-
-[tool.poetry.group.docs]
-
-[tool.poetry.group.docs.dependencies]
-autodoc-pydantic = "^2.2.0"
-doc8 = "^1.1.2"
-docutils = "^0.21.2"
-esbonio = "^0.16.5"
-numpydoc = "^1.8.0"
-restructuredtext-lint = "^1.4.0"
-sphinx = "<8.2.0"
-sphinx-click = "^6.0.0"
-sphinx-datatables = "^0.2.1"
-sphinx-hoverxref = "^1.4.2"
-sphinx-immaterial = "^0.13.4"
-
-[tool.poetry.group.docs.dependencies.enum-tools]
-extras = ["sphinx"]
-version = "^0.12.0"
-
-[tool.poetry.group.docs.dependencies.erdantic]
-optional = true
-version = "<2.0"
-
-[tool.poetry.group.tests]
-
-[tool.poetry.group.tests.dependencies]
-mock = "^5.2.0"
-pytest = "^8.3.5"
-pytest-cov = "^6.1.1"
-pytest-mock = "^3.14.0"
-
-[tool.poetry.group.tests.dependencies.coveralls]
-python = "<3.13"
-version = "^4.0.1"
 
 [[tool.poetry.packages]]
 include = "yt_dlp-stubs"
@@ -151,14 +100,6 @@ reportShadowedImports = "error"
 reportUnnecessaryTypeIgnoreComment = "none"
 typeCheckingMode = "off"
 useLibraryCodeForTypes = false
-
-[tool.pytest]
-
-[tool.pytest.ini_options]
-mock_use_standalone_module = true
-norecursedirs = ["node_modules"]
-python_files = ["tests.py", "test_*.py", "*_tests.py"]
-testpaths = ["tests"]
 
 [tool.ruff]
 cache-dir = "~/.cache/ruff"
@@ -183,6 +124,7 @@ extend-select = [
   "CPY",
   "D",
   "DJ",
+  "DOC",
   "DTZ",
   "E",
   "EM",
@@ -190,6 +132,7 @@ extend-select = [
   "EXE",
   "F",
   "FA",
+  "FAST",
   "FBT",
   "FIX",
   "FLY",
@@ -221,11 +164,12 @@ extend-select = [
   "SLOT",
   "T10",
   "T20",
-  "TCH",
+  "TC",
   "TD",
   "TID",
   "TRY",
   "UP",
+  "W",
   "YTT",
 ]
 ignore = [
@@ -238,17 +182,11 @@ ignore = [
   "C901",
   "COM812",
   "CPY001",
-  "D100",
-  "D101",
-  "D102",
-  "D103",
-  "D104",
-  "D105",
-  "D106",
-  "D107",
+  "D201",
   "D203",
   "D204",
   "D212",
+  "DOC201",
   "E303",
   "EM101",
   "FBT001",

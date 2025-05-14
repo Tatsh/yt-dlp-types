@@ -9,6 +9,7 @@ local utils = import 'utils.libjsonnet';
   citation+: {
     'date-released': '2025-04-12',
   },
+  want_codeql: false,
   want_docs: false,
   want_tests: false,
   stubs_only: true,
