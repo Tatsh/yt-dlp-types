@@ -6,6 +6,7 @@
 .directory
 .pnp.*
 /.yarn/install-state.gz
+/build/
 /dist/
 /docs/_build/
 /man/_static/
