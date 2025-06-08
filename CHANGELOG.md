@@ -10,6 +10,13 @@ and this project adheres to
 
 ## [unreleased]
 
+## [0.0.17] - 2025-06-08
+
+### Added
+
+- Added almost the entire interface except for most extractors and postprocessors. Not everything is
+  as precise as it could.
+
 ## [0.0.16] - 2025-04-27
 
 ### Added
@@ -55,4 +62,4 @@ and this project adheres to
 
 - Package name. Thanks to @Sky-NiniKo
 
-[unreleased]: https://github.com/Tatsh/yt-dlp-types/compare/v0.0.16...HEAD
+[unreleased]: https://github.com/Tatsh/yt-dlp-types/compare/v0.0.17...HEAD

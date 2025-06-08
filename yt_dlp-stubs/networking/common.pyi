@@ -1,28 +1,34 @@
 import abc
-from email.message import Message
 import enum
 import io
-from types import TracebackType
-from typing import Any, IO, TypeAlias, TypeVar
-from collections.abc import Callable
-from collections.abc import Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping
+from email.message import Message
+from logging import Logger
+from typing import IO, Any
 from typing_extensions import Self
+from typing import TypeAlias
+from _typeshed import Unused
 
 from ..cookies import YoutubeDLCookieJar
-from ..utils import classproperty
-from ..utils._utils import SupportedLogger
+from ..utils._utils import _YDLLogger
 from ..utils.networking import HTTPHeaderDict
-from ._helper import wrap_request_errors
 
-DEFAULT_TIMEOUT = ...
+DEFAULT_TIMEOUT: int
+_RequestData: TypeAlias = bytes | Iterable[bytes] | IO[Any] | None
+_Preference: TypeAlias = Callable[[RequestHandler, Request], int]
 
 
-def register_preference(*handlers: type[RequestHandler]) -> Callable[[Any], Any]:
+def register_preference(*handlers: type[RequestHandler]) -> Callable[..., object]:
     ...
 
 
 class RequestDirector:
-    def __init__(self, logger: SupportedLogger, verbose: bool = ...) -> None:
+    handlers: dict[str, RequestHandler]
+    preferences: set[_Preference]
+    logger: Logger
+    verbose: bool
+
+    def __init__(self, logger: Logger, verbose: bool = False) -> None:
         ...
 
     def close(self) -> None:
@@ -35,84 +41,81 @@ class RequestDirector:
         ...
 
 
-_REQUEST_HANDLERS = ...
-
-_H = TypeVar('_H', bound=type[RequestHandler])
-
-
-def register_rh(handler: _H) -> _H:
+def register_rh(handler: RequestHandler) -> RequestHandler:
     ...
 
 
 class Features(enum.Enum):
-    ALL_PROXY = ...
-    NO_PROXY = ...
+    ALL_PROXY = 1
+    NO_PROXY = 2
 
 
 class RequestHandler(abc.ABC):
-    _SUPPORTED_URL_SCHEMES = ...
-    _SUPPORTED_PROXY_SCHEMES = ...
-    _SUPPORTED_FEATURES = ...
+    headers: HTTPHeaderDict | dict[str, str]
+    cookiejar: YoutubeDLCookieJar | None
+    timeout: float | int
+    proxies: Mapping[str, object] | dict[str, object]
+    source_address: str | None
+    verbose: bool
+    prefer_system_certs: bool
+    verify: bool
+    legacy_ssl_support: bool
 
     def __init__(
         self,
         *,
-        logger: SupportedLogger,
-        headers: HTTPHeaderDict = ...,
-        cookiejar: YoutubeDLCookieJar = ...,
-        timeout: float | None = ...,
-        proxies: dict[str, str] | None = ...,
-        source_address: str | None = ...,
-        verbose: bool = ...,
-        prefer_system_certs: bool = ...,
-        client_cert: dict[str, str | None] | None = ...,
-        verify: bool = ...,
-        legacy_ssl_support: bool = ...,
-        **_: dict[str, Any],
+        logger: _YDLLogger,
+        headers: HTTPHeaderDict | Mapping[str, str] | None = None,
+        cookiejar: YoutubeDLCookieJar | None = None,
+        timeout: float | None = None,
+        proxies: Mapping[str, object] | None = None,
+        source_address: str | None = None,
+        verbose: bool = False,
+        prefer_system_certs: bool = False,
+        client_cert: dict[str, str | None] | None = None,
+        verify: bool = True,
+        legacy_ssl_support: bool = False,
+        **_: Unused,
     ) -> None:
         ...
 
-    @wrap_request_errors
     def validate(self, request: Request) -> None:
         ...
 
-    @wrap_request_errors
     def send(self, request: Request) -> Response:
         ...
 
     def close(self) -> None:
         ...
 
-    @classproperty
-    def RH_NAME(self) -> str:
+    @property
+    def RH_NAME(cls) -> str:
         ...
 
-    @classproperty
-    def RH_KEY(self) -> str:
+    @property
+    def RH_KEY(cls) -> str:
         ...
 
     def __enter__(self) -> Self:
         ...
 
-    def __exit__(
-        self,
-        type_: type[BaseException] | None,
-        value: BaseException | None,
-        traceback: TracebackType | None,
-    ) -> None:
+    def __exit__(self, *args: object) -> None:
         ...
 
 
 class Request:
+    proxies: Mapping[str, object] | dict[str, object]
+    extensions: Mapping[str, object] | dict[str, object]
+
     def __init__(
         self,
         url: str,
-        data: RequestData = ...,
-        headers: Mapping[str, str] | None = ...,
-        proxies: dict[str, str] | None = ...,
-        query: dict[str, str] | None = ...,
-        method: str | None = ...,
-        extensions: dict[Any, Any] | None = ...,
+        data: _RequestData | None = None,
+        headers: HTTPHeaderDict | Mapping[str, str] | None = None,
+        proxies: Mapping[str, object] | None = None,
+        query: Mapping[str, str] | None = None,
+        method: str | None = None,
+        extensions: Mapping[str, object] | None = None,
     ) -> None:
         ...
 
@@ -133,28 +136,28 @@ class Request:
         ...
 
     @property
-    def data(self) -> RequestData:
+    def data(self) -> _RequestData | io.IOBase:
         ...
 
     @data.setter
-    def data(self, data: RequestData) -> None:
+    def data(self, data: _RequestData) -> None:
         ...
 
     @property
-    def headers(self) -> HTTPHeaderDict:
+    def headers(self) -> HTTPHeaderDict | dict[str, str]:
         ...
 
     @headers.setter
-    def headers(self, new_headers: HTTPHeaderDict) -> None:
+    def headers(self, new_headers: Mapping[str, str] | HTTPHeaderDict) -> None:
         ...
 
     def update(
         self,
-        url: str | None = ...,
-        data: RequestData | None = ...,
-        headers: Mapping[str, str] | None = ...,
-        query: Mapping[Any, Any] | None = ...,
-        extensions: Mapping[Any, Any] | None = ...,
+        url: str | None = None,
+        data: str | None = None,
+        headers: HTTPHeaderDict | Mapping[str, str] | None = None,
+        query: Mapping[str, str] | None = None,
+        extensions: Mapping[str, object] | None = None,
     ) -> None:
         ...
 
@@ -162,51 +165,72 @@ class Request:
         ...
 
 
-HEADRequest = ...
-PUTRequest = ...
+def HEADRequest(
+    url: str,
+    data: _RequestData | None = None,
+    headers: HTTPHeaderDict | Mapping[str, str] | None = None,
+    proxies: Mapping[str, object] | None = None,
+    query: Mapping[str, str] | None = None,
+    *,
+    method: str = 'HEAD',
+    extensions: Mapping[str, object] | None = None,
+) -> Request:
+    ...
+
+
+def PATCHRequest(
+    url: str,
+    data: _RequestData | None = None,
+    headers: HTTPHeaderDict | Mapping[str, str] | None = None,
+    proxies: Mapping[str, object] | None = None,
+    query: Mapping[str, str] | None = None,
+    *,
+    method: str = 'PATCH',
+    extensions: Mapping[str, object] | None = None,
+) -> Request:
+    ...
+
+
+def PUTRequest(
+    url: str,
+    data: _RequestData | None = None,
+    headers: HTTPHeaderDict | Mapping[str, str] | None = None,
+    proxies: Mapping[str, object] | None = None,
+    query: Mapping[str, str] | None = None,
+    *,
+    method: str = 'PUT',
+    extensions: Mapping[str, object] | None = None,
+) -> Request:
+    ...
 
 
 class Response(io.IOBase):
+    fp: io.IOBase
+    headers: Message
+    status: int
+    url: str
+    reason: str | None
+    extensions: Mapping[str, object] | dict[str, object]
+
     def __init__(
         self,
         fp: io.IOBase,
         url: str,
         headers: Mapping[str, str],
-        status: int = ...,
-        reason: str | None = ...,
-        extensions: dict[Any, Any] | None = ...,
+        status: int = 200,
+        reason: str | None = None,
+        extensions: Mapping[str, object] | dict[str, object] | None = None,
     ) -> None:
         ...
 
     def readable(self) -> bool:
         ...
 
-    def read(self, amt: int | None = ...) -> bytes:
+    def read(self, amt: int | None = None) -> bytes:
         ...
 
     def close(self) -> None:
         ...
 
-    def get_header(self, name: str, default: str | None = ...) -> str:
+    def get_header(self, name: str, default: str | None = None) -> str | None:
         ...
-
-    @property
-    def code(self) -> int:
-        ...
-
-    def getcode(self) -> int:
-        ...
-
-    def geturl(self) -> str:
-        ...
-
-    def info(self) -> Message[str, str]:
-        ...
-
-    def getheader(self, name: str, default: str | None = ...) -> str:
-        ...
-
-
-RequestData: TypeAlias = bytes | Iterable[bytes] | IO[Any] | None
-Preference: TypeAlias = Callable[[RequestHandler, Request], int]
-_RH_PREFERENCES: set[Preference] = ...

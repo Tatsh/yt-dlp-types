@@ -1,16 +1,15 @@
-from typing import Any
-
 from ..utils import YoutubeDLError
 from .common import RequestHandler, Response
 
 
 class RequestError(YoutubeDLError):
-    def __init__(
-        self,
-        msg: str | None = ...,
-        cause: Exception | str | None = ...,
-        handler: RequestHandler = ...,
-    ) -> None:
+    handler: RequestHandler | None
+    cause: Exception | str | None
+
+    def __init__(self,
+                 msg: str | None = None,
+                 cause: Exception | str | None = None,
+                 handler: RequestHandler | None = None) -> None:
         ...
 
 
@@ -19,6 +18,9 @@ class UnsupportedRequest(RequestError):
 
 
 class NoSupportingHandlers(RequestError):
+    unsupported_errors: list[UnsupportedRequest]
+    unexpected_errors: list[UnsupportedRequest]
+
     def __init__(self, unsupported_errors: list[UnsupportedRequest],
                  unexpected_errors: list[Exception]) -> None:
         ...
@@ -34,7 +36,7 @@ class HTTPError(RequestError):
     reason: str | None
     redirect_loop: bool
 
-    def __init__(self, response: Response, redirect_loop: bool = ...) -> None:
+    def __init__(self, response: Response, redirect_loop: bool = False) -> None:
         ...
 
     def close(self) -> None:
@@ -42,7 +44,7 @@ class HTTPError(RequestError):
 
 
 class IncompleteRead(TransportError):
-    def __init__(self, partial: int, expected: int | None = ..., **kwargs: Any) -> None:
+    def __init__(self, partial: int, expected: int | None = None, **kwargs: object) -> None:
         ...
 
 
@@ -58,4 +60,4 @@ class ProxyError(TransportError):
     ...
 
 
-network_exceptions = ...
+network_exceptions: tuple[type[RequestError], ...]

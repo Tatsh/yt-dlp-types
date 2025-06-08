@@ -1,14 +1,13 @@
 import abc
-from typing import Any
 
 from .common import RequestHandler, Response
 
 
 class WebSocketResponse(Response):
-    def send(self, message: bytes | str) -> Any:
+    def send(self, message: bytes | str) -> object:
         ...
 
-    def recv(self) -> Any:
+    def recv(self) -> object:
         ...
 
 

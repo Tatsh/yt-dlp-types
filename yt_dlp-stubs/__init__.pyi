@@ -1,35 +1,54 @@
 import optparse
-from collections.abc import Callable, Iterator, Mapping, Sequence
-from typing import Any, Literal, NamedTuple, TypedDict
+from collections.abc import Callable, Collection, Iterator, Mapping
+from typing import Literal, NamedTuple, Protocol, TypedDict, type_check_only
 from typing_extensions import NotRequired
 
-from ._misc import LoggerProtocol
+from .extractor import gen_extractors, list_extractors
 from .networking.impersonate import ImpersonateTarget
 from .YoutubeDL import YoutubeDL
 
-__all__ = ('YoutubeDL', 'parse_options')
+__all__ = ['YoutubeDL', 'gen_extractors', 'list_extractors', 'main', 'parse_options']
 
 
-class InfoDict(TypedDict):
-    ...
+@type_check_only
+class _LoggerProtocol(Protocol):
+    def __init__(self, ydl: YoutubeDL | None = None) -> None:
+        ...
+
+    def debug(self, message: str) -> None:
+        ...
+
+    def info(self, message: str) -> None:
+        ...
+
+    def warning(self, message: str, *, once: bool = ..., only_once: bool = ...) -> None:
+        ...
+
+    def error(self, message: str) -> None:
+        ...
+
+    def stdout(self, message: str) -> None:
+        ...
+
+    def stderr(self, message: str) -> None:
+        ...
 
 
-class FormatContext(TypedDict):
-    ...
-
-
-class RetrySleepFunctions(TypedDict):
+@type_check_only
+class _RetrySleepFunctions(TypedDict):
     default: NotRequired[Callable[[int], int]]
     file_access: NotRequired[Callable[[int], int]]
     fragment: NotRequired[Callable[[int], int]]
 
 
-class ProgressTemplateValue(TypedDict):
+@type_check_only
+class _ProgressTemplateValue(TypedDict):
     info: NotRequired[str]
     progress: NotRequired[str]
 
 
-class ExternalDownloader(TypedDict):
+@type_check_only
+class _ExternalDownloader(TypedDict):
     dash: NotRequired[str]
     default: NotRequired[str]
     ftp: NotRequired[str]
@@ -40,28 +59,33 @@ class ExternalDownloader(TypedDict):
     rtsp: NotRequired[str]
 
 
-class DownloadRange(TypedDict):
+@type_check_only
+class _DownloadRange(TypedDict):
     end_time: int
     index: NotRequired[int]
     start_time: int
     title: NotRequired[str]
 
 
-class Color(TypedDict):
+@type_check_only
+class _Color(TypedDict):
     stderr: NotRequired[Literal['always', 'auto', 'no_color', 'never']]
     stdout: NotRequired[Literal['always', 'auto', 'no_color', 'never']]
 
 
-ProgressTemplate = TypedDict(
-    'ProgressTemplate', {
-        'download': ProgressTemplateValue,
-        'download-title': ProgressTemplateValue,
-        'postprocess': ProgressTemplateValue,
-        'postprocess-title': ProgressTemplateValue
-    })
+_ProgressTemplate = TypedDict(
+    '_ProgressTemplate',
+    {
+        'download': _ProgressTemplateValue,
+        'download-title': _ProgressTemplateValue,
+        'postprocess': _ProgressTemplateValue,
+        'postprocess-title': _ProgressTemplateValue,
+    },
+)
 
 
-class YDLOpts(TypedDict):
+@type_check_only
+class _Params(TypedDict):
     usenetrc: NotRequired[bool | None]
     netrc_location: NotRequired[str | None]
     netrc_cmd: NotRequired[str | None]
@@ -84,17 +108,17 @@ class YDLOpts(TypedDict):
     forcedescription: NotRequired[bool | None]
     forceduration: NotRequired[str | None]
     forcefilename: NotRequired[bool | None]
-    forceprint: NotRequired[Mapping[str, Sequence[str]] | Sequence[str] | None]
+    forceprint: NotRequired[Mapping[str, Collection[str]] | Collection[str] | None]
     print_to_file: NotRequired[Mapping[str, tuple[str, str]] | None]
     forcejson: NotRequired[bool | None]
     dump_single_json: NotRequired[bool | None]
     force_write_download_archive: NotRequired[str | None]
     simulate: NotRequired[str | None]
     skip_download: NotRequired[str | None]
-    format: NotRequired[str | Callable[[FormatContext], Mapping[str, Any]] | None]
+    format: NotRequired[str | Callable[[Mapping[str, object]], Mapping[str, object]] | None]
     allow_unplayable_formats: NotRequired[bool | None]
     ignore_no_formats_error: NotRequired[bool | None]
-    format_sort: NotRequired[Sequence[str] | None]
+    format_sort: NotRequired[Collection[str] | None]
     format_sort_force: NotRequired[str | None]
     allow_multiple_video_streams: NotRequired[bool | None]
     allow_multiple_audio_streams: NotRequired[bool | None]
@@ -107,7 +131,7 @@ class YDLOpts(TypedDict):
     windowsfilenames: NotRequired[bool | None]
     ignoreerrors: NotRequired[bool | Literal['only_download'] | None]
     force_generic_extractor: NotRequired[bool | None]
-    allowed_extractors: NotRequired[Sequence[str] | None]
+    allowed_extractors: NotRequired[Collection[str] | None]
     ratelimit: NotRequired[int | None]
     throttledratelimit: NotRequired[int | None]
     overwrites: NotRequired[bool | None]
@@ -115,7 +139,7 @@ class YDLOpts(TypedDict):
     file_access_retries: NotRequired[int | None]
     fragment_retries: NotRequired[int | None]
     extractor_retries: NotRequired[int | None]
-    retry_sleep_functions: NotRequired[RetrySleepFunctions | None]
+    retry_sleep_functions: NotRequired[_RetrySleepFunctions | None]
     skip_unavailable_fragments: NotRequired[bool | None]
     keep_fragments: NotRequired[bool | None]
     concurrent_fragment_downloads: NotRequired[int | None]
@@ -125,7 +149,7 @@ class YDLOpts(TypedDict):
     continuedl: NotRequired[bool | None]
     noprogress: NotRequired[bool | None]
     progress_with_newline: NotRequired[bool | None]
-    progress_template: NotRequired[ProgressTemplate | None]
+    progress_template: NotRequired[_ProgressTemplate | None]
     playliststart: NotRequired[int | None]
     playlistend: NotRequired[int | None]
     playlistreverse: NotRequired[bool | None]
@@ -153,7 +177,7 @@ class YDLOpts(TypedDict):
     allsubtitles: NotRequired[bool | None]
     listsubtitles: NotRequired[bool | None]
     subtitlesformat: NotRequired[str | None]
-    subtitleslangs: NotRequired[Sequence[str] | None]
+    subtitleslangs: NotRequired[Collection[str] | None]
     matchtitle: NotRequired[bool | None]
     rejecttitle: NotRequired[bool | None]
     prefer_free_formats: NotRequired[bool | None]
@@ -188,7 +212,7 @@ class YDLOpts(TypedDict):
     include_ads: NotRequired[bool | None]
     default_search: NotRequired[str | None]
     dynamic_mpd: NotRequired[bool | None]
-    extractor_args: NotRequired[Mapping[str, Mapping[str, Any]] | None]
+    extractor_args: NotRequired[Mapping[str, Mapping[str, object]] | None]
     youtube_include_dash_manifest: NotRequired[bool | None]
     youtube_include_hls_manifest: NotRequired[bool | None]
     encoding: NotRequired[str | None]
@@ -199,7 +223,7 @@ class YDLOpts(TypedDict):
     mark_watched: NotRequired[bool | None]
     merge_output_format: NotRequired[str | None]
     final_ext: NotRequired[str | None]
-    postprocessors: NotRequired[Sequence[Mapping[str, Any]]]
+    postprocessors: NotRequired[Collection[Mapping[str, object]]]
     fixup: NotRequired[Literal['never', 'warn', 'detect_or_warn'] | None]
     source_address: NotRequired[str | None]
     call_home: NotRequired[bool | None]
@@ -207,15 +231,15 @@ class YDLOpts(TypedDict):
     sleep_interval: NotRequired[int | None]
     max_sleep_interval: NotRequired[int | None]
     sleep_interval_subtitles: NotRequired[int | None]
-    external_downloader: NotRequired[ExternalDownloader | None]
-    download_ranges: NotRequired[Callable[[Any, YoutubeDL], Iterator[DownloadRange]] | None]
+    external_downloader: NotRequired[_ExternalDownloader | None]
+    download_ranges: NotRequired[Callable[[object, YoutubeDL], Iterator[_DownloadRange]] | None]
     force_keyframes_at_cuts: NotRequired[bool | None]
     list_thumbnails: NotRequired[str | None]
-    playlist_items: NotRequired[Sequence[int] | None]
+    playlist_items: NotRequired[Collection[int] | None]
     xattr_set_filesize: NotRequired[bool | None]
-    match_filter: NotRequired[Callable[[InfoDict, bool], str | None]
-                              | Callable[[InfoDict], str | None] | None]
-    color: NotRequired[Color | None]
+    match_filter: NotRequired[Callable[[Mapping[str, object], bool], str | None]
+                              | Callable[[Mapping[str, object]], str | None] | None]
+    color: NotRequired[_Color | None]
     ffmpeg_location: NotRequired[str | None]
     hls_prefer_native: NotRequired[bool | None]
     hls_use_mpegts: NotRequired[bool | None]
@@ -224,34 +248,39 @@ class YDLOpts(TypedDict):
     dump_intermediate_pages: NotRequired[bool | None]
     listformats_table: NotRequired[bool | None]
     write_pages: NotRequired[bool | None]
-    external_downloader_args: NotRequired[Literal['default'] | Mapping[str, Sequence[str]]
-                                          | Sequence[str] | None]
-    postprocessor_args: NotRequired[Mapping[str, Sequence[str]] | Sequence[str] | None]
+    external_downloader_args: NotRequired[Literal['default'] | Mapping[str, Collection[str]]
+                                          | Collection[str] | None]
+    postprocessor_args: NotRequired[Mapping[str, Collection[str]] | Collection[str] | None]
     geo_verification_proxy: NotRequired[str | None]
     geo_bypass: NotRequired[bool | None]
     geo_bypass_country: NotRequired[str | None]
     geo_bypass_ip_block: NotRequired[str | None]
-    compat_opts: NotRequired[dict[str, Any] | None]
+    compat_opts: NotRequired[dict[str, object] | None]
     # Undocumented fields below.
-    _deprecation_warnings: NotRequired[Sequence[str] | None]
-    _warnings: NotRequired[Sequence[str] | None]
+    _deprecation_warnings: NotRequired[Collection[str] | None]
+    _warnings: NotRequired[Collection[str] | None]
     autonumber_size: NotRequired[int | None]
     autonumber_start: NotRequired[int | None]
     cn_verification_proxy: NotRequired[str | None]
-    forceformat: NotRequired[Any]
+    forceformat: NotRequired[object]
     load_pages: NotRequired[bool | None]
-    logger: NotRequired[LoggerProtocol]
+    logger: NotRequired[_LoggerProtocol]
     youtube_print_sig_code: NotRequired[bool | None]
-    progress_hooks: NotRequired[list[Callable[[Any], Any]]]
+    progress_hooks: NotRequired[list[Callable[[object], object]]]
     impersonate: NotRequired[ImpersonateTarget]
 
 
-class ParsedOptions(NamedTuple):
-    parser: Any
+@type_check_only
+class _ParsedOptions(NamedTuple):
+    parser: optparse.OptionParser
     options: optparse.Values
-    urls: Sequence[str]
-    ydl_opts: YDLOpts
+    urls: Collection[str]
+    ydl_opts: _Params
 
 
-def parse_options(argv: Sequence[str] | None = ...) -> ParsedOptions:
+def parse_options(argv: Collection[str] | None = ...) -> _ParsedOptions:
+    ...
+
+
+def main(argv: list[str] | None = ...) -> int:
     ...

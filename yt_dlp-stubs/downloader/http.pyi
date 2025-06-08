@@ -1,0 +1,5 @@
+from .common import FileDownloader
+
+
+class HttpFD(FileDownloader):
+    ...

@@ -1,0 +1,9 @@
+from .common import FileDownloader
+
+
+def rtmpdump_version() -> str:
+    ...
+
+
+class RtmpFD(FileDownloader):
+    ...

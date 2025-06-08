@@ -1,10 +1,8 @@
 from abc import ABC
 from dataclasses import dataclass
-from typing import Any
 from typing_extensions import Self
 
-from ..utils import classproperty
-from .common import Request, RequestHandler, register_preference
+from .common import Request, RequestHandler
 
 
 @dataclass(order=True, frozen=True)
@@ -26,19 +24,18 @@ class ImpersonateTarget:
 
 
 class ImpersonateRequestHandler(RequestHandler, ABC):
-    _SUPPORTED_IMPERSONATE_TARGET_MAP: dict[ImpersonateTarget, Any] = ...
+    _SUPPORTED_IMPERSONATE_TARGET_MAP: dict[ImpersonateTarget, object] = ...
 
-    def __init__(self, *, impersonate: ImpersonateTarget = ..., **kwargs: dict[str, Any]) -> None:
+    def __init__(self, *, impersonate: ImpersonateTarget | None = None, **kwargs: object) -> None:
         ...
 
-    @classproperty
-    def supported_targets(self) -> tuple[ImpersonateTarget, ...]:
+    @property
+    def supported_targets(cls) -> tuple[ImpersonateTarget, ...]:
         ...
 
     def is_supported_target(self, target: ImpersonateTarget) -> bool:
         ...
 
 
-@register_preference(ImpersonateRequestHandler)
 def impersonate_preference(rh: RequestHandler, request: Request) -> int:
     ...

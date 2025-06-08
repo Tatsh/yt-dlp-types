@@ -1,0 +1,5 @@
+from .common import FileDownloader
+
+
+class NiconicoLiveFD(FileDownloader):
+    ...

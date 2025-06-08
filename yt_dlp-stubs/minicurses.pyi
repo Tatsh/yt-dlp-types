@@ -1,6 +1,5 @@
 from collections.abc import Callable
-from typing import Any, TextIO
-
+from typing import TextIO
 from typing_extensions import Self
 
 CONTROL_SEQUENCES: dict[str, str] = ...
@@ -11,7 +10,7 @@ def format_text(text: str, f: str) -> str:
 
 
 class MultilinePrinterBase:
-    def __init__(self, stream: TextIO = ..., lines: int = ...) -> None:
+    def __init__(self, stream: TextIO | None = None, lines: int = ...) -> None:
         ...
 
     def __enter__(self) -> Self:
@@ -44,10 +43,11 @@ class BreaklineStatusPrinter(MultilinePrinterBase):
 
 class MultilinePrinter(MultilinePrinterBase):
     def __init__(self,
-                 stream: TextIO | None = ...,
+                 stream: TextIO | None = None,
                  lines: int = ...,
                  preserve_output: bool = ...) -> None:
         ...
 
-    def lock(self, func: Callable[..., Any]) -> Callable[..., Any]:
+    def lock(  # type: ignore[misc]
+            func: Callable[..., object]) -> Callable[..., object]:
         ...

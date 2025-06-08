@@ -1,37 +1,47 @@
+from collections.abc import Collection, Iterator, KeysView
 from enum import Enum
 from http.cookiejar import Cookie, MozillaCookieJar
 from http.cookies import SimpleCookie
-from typing import Any, TextIO
-from collections.abc import Iterator
+from typing import TextIO, TypeVar
 
+from . import _LoggerProtocol
 from .minicurses import MultilinePrinter
-
+from .utils._utils import YoutubeDLError
 from .YoutubeDL import YoutubeDL
-
-from ._misc import LoggerProtocol
 
 CHROMIUM_BASED_BROWSERS: set[str] = ...
 SUPPORTED_BROWSERS: set[str] = ...
 
 
 class _LinuxKeyring(Enum):
-    BASIC_TEXT = ...
-    GNOME_KEYRING = ...
-    KWALLET4 = ...
-    KWALLET5 = ...
-    KWALLET6 = ...
+    BASICTEXT = 5
+    GNOMEKEYRING = 4
+    KWALLET = 1
+    KWALLET5 = 2
+    KWALLET6 = 3
 
 
-class YDLLogger(LoggerProtocol):
-    class ProgressBar(MultilinePrinter):
+SUPPORTED_KEYRINGS: KeysView[str]
+
+
+class YDLLogger(_LoggerProtocol):
+    def warning(self, message: str, only_once: bool = False) -> None:  # type: ignore[override]
         ...
+
+    class ProgressBar(MultilinePrinter):
+        def print(self, message: str) -> None:
+            ...
 
     def progress_bar(self) -> ProgressBar:
         ...
 
 
+class CookieLoadError(YoutubeDLError):
+    ...
+
+
 class YoutubeDLCookieJar(MozillaCookieJar):
-    def __init__(self, filename: str | None = ..., *args: Any, **kwargs: Any) -> None:
+    def __init__(self, filename: str | None = ..., *args: object, **kwargs: object) -> None:
         ...
 
     def open(self, file: str, *, write: bool = ...) -> Iterator[TextIO]:
@@ -43,18 +53,39 @@ class YoutubeDLCookieJar(MozillaCookieJar):
     def get_cookies_for_url(self, url: str) -> list[Cookie]:
         ...
 
+    def load(self,
+             filename: str | None = None,
+             ignore_discard: bool = True,
+             ignore_expires: bool = True) -> None:
+        ...
+
+    def save(self,
+             filename: str | None = None,
+             ignore_discard: bool = True,
+             ignore_expires: bool = True) -> None:
+        ...
+
 
 def load_cookies(cookie_file: str, browser_specification: str | None,
                  ydl: YoutubeDL) -> YoutubeDLCookieJar:
     ...
 
 
-def extract_cookies_from_browser(browser: str,
-                                 profile: str | None = ...,
-                                 logger: LoggerProtocol = ...,
-                                 *,
-                                 keyring: _LinuxKeyring | None = ...,
-                                 container: str | None = ...) -> YoutubeDLCookieJar:
+def extract_cookies_from_browser(
+    browser_name: str,
+    profile: str | None = ...,
+    logger: _LoggerProtocol = ...,
+    *,
+    keyring: _LinuxKeyring | None = ...,
+    container: str | None = ...,
+) -> YoutubeDLCookieJar:
+    ...
+
+
+_T = TypeVar('_T', bound=MozillaCookieJar)
+
+
+def parse_safari_cookies(data: bytes, jar: _T | None = None, logger: _LoggerProtocol = ...) -> _T:
     ...
 
 
@@ -64,12 +95,14 @@ class ChromeCookieDecryptor:
 
 
 class LinuxChromeCookieDecryptor(ChromeCookieDecryptor):
-    def __init__(self,
-                 browser_keyring_name: str,
-                 logger: LoggerProtocol,
-                 *,
-                 keyring: _LinuxKeyring | None = ...,
-                 meta_version: int | None = ...) -> None:
+    def __init__(
+        self,
+        browser_keyring_name: str,
+        logger: _LoggerProtocol,
+        *,
+        keyring: _LinuxKeyring | None = ...,
+        meta_version: int | None = ...,
+    ) -> None:
         ...
 
     @staticmethod
@@ -78,23 +111,33 @@ class LinuxChromeCookieDecryptor(ChromeCookieDecryptor):
 
 
 class MacChromeCookieDecryptor(ChromeCookieDecryptor):
+    def __init__(self,
+                 browser_keyring_name: str,
+                 logger: YDLLogger,
+                 meta_version: int | None = None) -> None:
+        ...
+
     @staticmethod
     def derive_key(password: bytes) -> bytes:
         ...
 
 
 class WindowsChromeCookieDecryptor(ChromeCookieDecryptor):
-    @staticmethod
-    def derive_key(password: bytes) -> bytes:
+    def __init__(self,
+                 browser_root: str,
+                 logger: YDLLogger,
+                 meta_version: int | None = None) -> None:
         ...
 
 
-def get_cookie_decryptor(browser_root: Any,
-                         browser_keyring_name: str,
-                         logger: LoggerProtocol,
-                         *,
-                         keyring: _LinuxKeyring | None = ...,
-                         meta_version: int | None = ...) -> ChromeCookieDecryptor:
+def get_cookie_decryptor(
+    browser_root: object,
+    browser_keyring_name: str,
+    logger: _LoggerProtocol,
+    *,
+    keyring: _LinuxKeyring | None = ...,
+    meta_version: int | None = ...,
+) -> ChromeCookieDecryptor:
     ...
 
 
@@ -103,7 +146,32 @@ class ParserError(Exception):
 
 
 class DataParser:
-    ...
+    def __init__(self, data: bytes, logger: YDLLogger) -> None:
+        ...
+
+    def read_bytes(self, num_bytes: int) -> bytes:
+        ...
+
+    def expect_bytes(self, expected_value: bytes, message: str) -> None:
+        ...
+
+    def read_uint(self, big_endian: bool = False) -> int:
+        ...
+
+    def read_double(self, big_endian: bool = False) -> float:
+        ...
+
+    def read_cstring(self) -> bytes:
+        ...
+
+    def skip(self, num_bytes: int, description: str = 'unknown') -> None:
+        ...
+
+    def skip_to(self, offset: int, description: str = 'unknown') -> None:
+        ...
+
+    def skip_to_end(self, description: str = 'unknown') -> None:
+        ...
 
 
 def pbkdf2_sha1(password: bytes, salt: bytes, iterations: int, key_length: int) -> bytes:
@@ -111,4 +179,5 @@ def pbkdf2_sha1(password: bytes, salt: bytes, iterations: int, key_length: int) 
 
 
 class LenientSimpleCookie(SimpleCookie):
-    ...
+    def load(self, data: str | Collection[str]) -> None:
+        ...
