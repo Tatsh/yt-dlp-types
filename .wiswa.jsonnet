@@ -5,7 +5,7 @@ local utils = import 'utils.libjsonnet';
   description: 'PEP 561 type stubs for yt-dlp.',
   keywords: ['pep561', 'stubs', 'types', 'yt-dlp'],
   project_name: 'yt-dlp-types',
-  version: '0.0.16',
+  version: '0.0.17',
   citation+: {
     'date-released': '2025-04-12',
   },
