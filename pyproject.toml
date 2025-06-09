@@ -78,7 +78,7 @@ optional = true
 commitizen = "^4.8.2"
 djlint = "^1.36.4"
 mypy = ">=1.12,<1.17"
-ruff = "^0.11.12"
+ruff = "^0.11.13"
 yapf = "^0.43.0"
 yt-dlp = ">=2023.6.22,<2026.0.0"
 
