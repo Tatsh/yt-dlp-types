@@ -3,7 +3,7 @@
 [![Python versions](https://img.shields.io/pypi/pyversions/yt-dlp-types.svg?color=blue&logo=python&logoColor=white)](https://www.python.org/)
 [![PyPI - Version](https://img.shields.io/pypi/v/yt-dlp-types)](https://pypi.org/project/yt-dlp-types/)
 [![GitHub tag (with filter)](https://img.shields.io/github/v/tag/Tatsh/yt-dlp-types)](https://github.com/Tatsh/yt-dlp-types/tags)
-[![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/Tatsh/yt-dlp-types/v0.0.17/master)](https://github.com/Tatsh/yt-dlp-types/compare/v0.0.17...master)
+[![GitHub commits since latest release (by SemVer including pre-releases)](https://img.shields.io/github/commits-since/Tatsh/yt-dlp-types/v0.0.18/master)](https://github.com/Tatsh/yt-dlp-types/compare/v0.0.18...master)
 [![License](https://img.shields.io/github/license/Tatsh/yt-dlp-types)](https://github.com/Tatsh/yt-dlp-types/blob/master/LICENSE.txt)
 [![QA](https://github.com/Tatsh/yt-dlp-types/actions/workflows/qa.yml/badge.svg)](https://github.com/Tatsh/yt-dlp-types/actions/workflows/qa.yml)
 [![mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)

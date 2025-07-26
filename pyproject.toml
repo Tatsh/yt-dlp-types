@@ -20,7 +20,7 @@ keywords = ["pep561", "stubs", "types", "yt-dlp"]
 license = "MIT"
 name = "yt-dlp-types"
 readme = "README.md"
-version = "0.0.17"
+version = "0.0.18"
 
 [[project.authors]]
 email = "audvare@gmail.com"
