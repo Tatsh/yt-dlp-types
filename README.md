@@ -17,6 +17,10 @@
 
 PEP 561 type stubs for yt-dlp.
 
+## Deprecated
+
+Use [types-yt-dlp](https://pypi.org/project/types-yt-dlp/).
+
 ## Installation
 
 ### Poetry
