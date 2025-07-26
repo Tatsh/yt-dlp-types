@@ -8,7 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [0.0.18] - 2025-07-26
+
+Deprecated. Use [types-yt-dlp](https://pypi.org/project/types-yt-dlp/).
 
 ## [0.0.17] - 2025-06-08
 
@@ -61,5 +63,3 @@ and this project adheres to
 ### Fixed
 
 - Package name. Thanks to @Sky-NiniKo
-
-[unreleased]: https://github.com/Tatsh/yt-dlp-types/compare/v0.0.17...HEAD
